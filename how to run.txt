@@ -1,0 +1,27 @@
+1) Run Fusion 
+
+2) Run IM 
+
+3) Run rasa  server 
+
+	- Anaconda 
+
+	- Cd dir com rasaDemo 
+
+	- Conda activate rasa-env 
+
+	- rasa run --enable-api -m .\models\ --cors “*”  
+
+4) Run http server 
+
+	- Cmd  
+
+	- Start_web_app.bat 
+
+5) Run web apps 
+
+6) Abrir no chrome
+
+	- https://127.0.0.1:8082/index.htm
+
+	- https://127.0.0.1:8082/appGui.htm

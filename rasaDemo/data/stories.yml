@@ -1,2 +1,6 @@
 version: "3.1"
 stories:
+- story: buy in
+  steps:
+    - intent: buy_in
+    - action: utter_amount-of-money

@@ -3,9 +3,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains 
 import argparse
+from flask_cors import CORS
 
 # creating a Flask app 
 app = Flask(__name__)
+cors = CORS(app)
 
 # init driver
 driver = webdriver.Edge()
@@ -24,7 +26,7 @@ def home():
 @app.route('/buy_in', methods = ['POST'])
 def buy_in():
     if (request.method == 'POST'):
-        value = request.form.get("value")
+        value = str(request.form.get("value"))
 
         if value:
             input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[9]/div[2]/div/input')

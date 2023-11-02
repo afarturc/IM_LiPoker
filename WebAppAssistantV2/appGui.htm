@@ -74,7 +74,6 @@
     <script src="js/webtoolkit.utf8.js"></script>
 
 
-
 <script type="module">
 
 
@@ -95,16 +94,7 @@
     }
   }
 
-  
-  let circle = SVG.find('.circle');
-  let square = SVG.find('.square');
-  let triangle = SVG.find('.triangle');
-
-  circle.animate().attr({fill:'#ccc'});
-  square.animate().attr({fill:'#ccc'});
-  triangle.animate().attr({fill:'#ccc'});
-
-  import { buyIn } from './js/api.js'
+  import {buyIn, call} from './js/api.js';
 
   function im1MessageHandler(data) {
 
@@ -118,49 +108,17 @@
           // Try to parse XML
           console.log(content);
 
-          //$("#response").html(content);
-          //$("#response").addClass("container");
-          //$("#response").addClass("responseText");
-
           let c = JSON.parse(content);
-          let shape;
-          let color;
-          if (c.hasOwnProperty("nlu") && c.nlu.intent=="change_color") {
-            switch(c.nlu.shape.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')){
-              case 'triangulo': shape = triangle; break;
-              case 'quadrado': shape = square; break;
-              case 'circulo': shape = circle; break;
-            }
-
-            switch(c.nlu.color.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')){
-              case 'azul': color = "#3333FF"; break;
-              case 'verde': color = "#33FF33"; break;
-              case 'cinzento': color = "#aaa"; break;
-              case 'vermelho': color = "#FF3333"; break;
-              case 'branco': color = "#fff"; break;
-              case 'rosa': color = "#ff66b2"; break;
-              case 'amarelo': color = "#ffff33"; break;
-              case 'preto': color = "#000"; break;
-              case 'laranja': color = "#FF9933"; break;
-            }
-
-
-            
-            shape.animate().attr({ fill: color });
-            sendToVoice("Mudei o " + c.nlu.shape + " para a cor " + c.nlu.color);
-          }
 
           if (c.hasOwnProperty("nlu") && c.nlu.intent=="buy_in") {
-            sendToVoice("Vou a jogo com 100 euros");
-            buyIn('100');
+            var value = c.nlu["amount-of-money"]
+            sendToVoice(`Vou a jogo com ${value} euros`);
+            buyIn(value);
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="call") {
+            sendToVoice("Vou a jogo");
+            call();
           }
 
-          /*setTimeout(function(){
-            $("#response").html("");
-            $("#response").removeClass("container");
-            $("#response").removeClass("responseText");
-          }, 3000);
-          */
         }
         catch (e) { console.log(e); }
 
@@ -174,28 +132,13 @@
   var mmiCli_1 = null;
   mmiCli_1 = new MMIClient(null, "https://"+host+":8000/IM/USER1/APPSPEECH");
 
-  circle.on('click', function(){
-      console.log("circulo");
-      sendToVoice("circulo");
-  })
-
-  square.on('click', function(){
-      console.log("quadrado");
-      sendToVoice("quadrado");
-  })
-
-  triangle.on('click', function(){
-      console.log("triangulo");
-      sendToVoice("triangulo");
-  })
-
   function sendToVoice(texto){
     //let speak = "&lt;speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"&gt;&lt;p&gt;" + "quadrado" + "&lt;/p&gt;&lt;/speak&gt";
-  let speak = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"><p>"+texto+"</p></speak>";
-  var result = speak;
-      mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1").
-          doStartRequest(new EMMA("text-", "text", "command", 1, 0).
-            setValue(JSON.stringify(result))));
+    let speak = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"><p>"+texto+"</p></speak>";
+    var result = speak;
+        mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1").
+            doStartRequest(new EMMA("text-", "text", "command", 1, 0).
+              setValue(JSON.stringify(result))));
   }
   
 

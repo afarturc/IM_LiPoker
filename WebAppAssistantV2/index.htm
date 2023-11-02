@@ -396,27 +396,23 @@ InitializeKWS();
     $.post( "http://localhost:5005/model/parse", JSON.stringify(obj), function( data ) {
     console.log(data);
 
- 
-    if(data.intent.name=='change_color'){
-      var shape='' ;
-      var color='' ;
+    if (data.intent.name=='buy_in') {
+      var value = '';
 
       for (let i = 0; i < data.entities.length; i++)
       {
-        if(data.entities[i].entity=='shape')
-    	    shape=data.entities[i].value;
-        if(data.entities[i].entity=='color')
-    	    color=data.entities[i].value;
+        if(data.entities[i].entity=='amount-of-money')
+          value=data.entities[i].value;
       }
-  
-      var message = {'intent':'change_color','shape':shape,'color':color}
+
+      var message = {'intent':'buy_in', 'amount-of-money':value}
       var messaget = btoa(unescape(encodeURIComponent(final_transcript)));
       var result = { "recognized" : ["SPEECH", "SPEECHIN", "APP"], "text": messaget, "nlu": message };
       mmiCli_1.sendToIM(new LifeCycleEvent("SPEECHIN", "IM", "text-1", "ctx-1").
             doExtensionNotification(new EMMA("text-", "text", "command", 1, 0).
             setValue(JSON.stringify(result))));
-    } else if (data.intent.name=='buy_in') {
-      var message = {'intent':'buy_in'}
+    } else if (data.intent.name=='call') {
+      var message = {'intent':'call'}
       var messaget = btoa(unescape(encodeURIComponent(final_transcript)));
       var result = { "recognized" : ["SPEECH", "SPEECHIN", "APP"], "text": messaget, "nlu": message };
       mmiCli_1.sendToIM(new LifeCycleEvent("SPEECHIN", "IM", "text-1", "ctx-1").

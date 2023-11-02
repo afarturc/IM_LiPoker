@@ -34,10 +34,6 @@ nlu:
     - Knock 
     - Sem aposta
 
-- intent: raise
-  examples : |
-    - Aumentar a aposta
-
 - intent: all_in
   examples : |
     - Apostar tudo 
@@ -48,7 +44,15 @@ nlu:
     - Coloca as fichas todas na mesa
     - Vou all-in
 
-- intent: confirmar_quantia
+- intent: raise
+  examples: |
+    - Aumentar a aposta
+    - Vou apostar com 10 euros
+    - Vou apostar com 10€
+    - Quero fazer uma aposta de 10€
+    - Queros fazer uma posta de 10 euros
+
+- intent: affirm_bet
   examples : |
     - A quantia está certa
     - Está certo
@@ -59,7 +63,7 @@ nlu:
     - Ok
     - Sim  
 
-- intent: negar_quantia
+- intent: deny_bet
   examples: |
     - Não
     - Está errado

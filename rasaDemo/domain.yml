@@ -3,10 +3,10 @@ intents:
 - call
 - fold
 - check
-- raise
 - all_in
-- confirmar_quantia
-- negar_quantia
+- raise
+- affirm_bet
+- deny_bet
 - buy_in
 
 entities:
@@ -44,7 +44,11 @@ responses:
   - text: Qual é a diferença entre um padre e um Mercedes? O padre reza e o Mercedes Benz
   
   utter_amount-of-money:
-    - text: Tens {amount-of-money} em caixa.
+  - text: Tens {amount-of-money} em caixa.
+  
+  utter_fold:
+  - text: Tem a certeza que quer desistir?
+  - text: Confirme se quer largar a mão.
   
 actions:
 - action_greet_user

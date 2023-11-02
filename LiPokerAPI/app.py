@@ -39,7 +39,57 @@ def buy_in():
         else:
             return jsonify({'message': "Entrada inválida"})
         
+@app.route('/raise', methods = ['POST'])
+def raise_bet():
+    if (request.method == 'POST'):
+        value = str(request.form.get("value"))
+
+        if value:
+            bet_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div[1]/button[1]')
+            action.click(on_element=bet_button)
+            action.perform()
+            action.pause(1)
+
+            bet_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div/div[1]/div[2]/input')
+            action.send_keys_to_element(bet_input, value)
+            action.perform()
+
+            return jsonify({'message': f"Vou fazer uma aposta de {value}"})
+        else:
+            return jsonify({'message': "Entrada inválida"})
+        
+@app.route('/all_in', methods = ['POST'])
+def all_in():
+    if (request.method == 'POST'):
+        bet_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div[1]/button[1]')
+        action.click(on_element=bet_button)
+        action.perform()
+        action.pause(1)
+
+        all_in_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[9]/div[2]/div/div/div[1]/div[1]/button[5]')
+        action.click(on_element=all_in_button)
+        action.perform()
+
+        return jsonify({'message': f"Apostar tudo"})
+        
+@app.route('/affirm_bet', methods = ['POST'])
+def affirm_bet():
+    if (request.method == 'POST'):
+        button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div/div[2]/div[1]/button[1]')
+        action.click(on_element = button)
+        action.perform()
+
+        return jsonify({'message': "Confirmar aposta"})
     
+@app.route('/deny_bet', methods = ['POST'])
+def deny_bet():
+    if (request.method == 'POST'):
+        button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div/div[2]/div[2]/button[1]')
+        action.click(on_element = button)
+        action.perform()
+
+        return jsonify({'message': "Não confirmar aposta"})
+        
 @app.route('/call', methods = ['POST'])
 def call():
     if (request.method == 'POST'):
@@ -48,6 +98,24 @@ def call():
         action.perform()
 
         return jsonify({'message': "Vou a jogo"})
+    
+@app.route('/fold', methods = ['POST'])
+def fold():
+    if (request.method == 'POST'):
+        call_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[9]/div[2]/div/div[3]/button[1]')
+        action.click(on_element = call_button)
+        action.perform()
+
+        return jsonify({'message': "Eu desisto da mão"})
+    
+@app.route('/check', methods = ['POST'])
+def check():
+    if (request.method == 'POST'):
+        call_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[9]/div[2]/div/div[2]/button[1]')
+        action.click(on_element = call_button)
+        action.perform()
+
+        return jsonify({'message': "Dou check"})
   
 # driver function 
 if __name__ == '__main__':
@@ -56,4 +124,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
   
     driver.get(f"https://lipoker.io/game/{args.key}")
-    app.run(debug = True)
+    app.run(debug=True)

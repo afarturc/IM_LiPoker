@@ -10,7 +10,7 @@
 
 	- Conda activate rasa-env 
 
-	- rasa run --enable-api -m .\models\ --cors “*”  
+	- rasa run --enable-api -m .\models\ --cors "*"  
 
 4) Run http server 
 

@@ -4,3 +4,17 @@ stories:
   steps:
     - intent: buy_in
     - action: utter_amount-of-money
+
+- story: bet
+  steps:
+    - intent: bet
+    - action: utter_amount-of-money
+
+- story: fold
+  steps:
+    - intent: fold
+    - action: utter_fold
+    - or:
+      - intent: affirm
+      - intent: deny
+    

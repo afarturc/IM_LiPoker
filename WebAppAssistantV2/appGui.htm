@@ -94,7 +94,7 @@
     }
   }
 
-  import {buyIn, call} from './js/api.js';
+  import {buyIn, call, fold, check, raise, affirm_bet, deny_bet, all_in} from './js/api.js';
 
   function im1MessageHandler(data) {
 
@@ -112,11 +112,30 @@
 
           if (c.hasOwnProperty("nlu") && c.nlu.intent=="buy_in") {
             var value = c.nlu["amount-of-money"]
-            sendToVoice(`Vou a jogo com ${value} euros`);
+            sendToVoice(`Certo! Ir a jogo com ${value} euros.`);
             buyIn(value);
           } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="call") {
-            sendToVoice("Vou a jogo");
+            sendToVoice("Certo! Ir a jogo.");
             call();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="fold") {
+            sendToVoice("Certo! Desistir da mão.");
+            fold();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="check") {
+            sendToVoice("Certo! Passar a mão.");
+            check();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="raise") {
+            var value = c.nlu["amount-of-money"]
+            sendToVoice(`Confirma a sua aposta de ${value} euros?`);
+            raise(value);
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="affirm_bet") {
+            sendToVoice("Certo! Aposta confirmada.");
+            affirm_bet();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="deny_bet") {
+            sendToVoice("Certo! Não apostar.");
+            deny_bet();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="all_in") {
+            sendToVoice("Tem a certeza que quer apostar tudo?");
+            all_in();
           }
 
         }

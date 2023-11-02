@@ -61,7 +61,9 @@ nlu:
     - Está correto
     - Okay
     - Ok
-    - Sim  
+    - Sim
+    - Confirmo
+    - Confirmo a aposta  
 
 - intent: deny_bet
   examples: |
@@ -72,6 +74,8 @@ nlu:
     - Não gosto assim
     - Nem por isso
     - Assim não
+    - Não confirmo
+    - Não confirmo a aposta
 
 - intent: buy_in
   examples: |

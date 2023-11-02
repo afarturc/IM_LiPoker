@@ -44,19 +44,17 @@ def raise_bet():
     if (request.method == 'POST'):
         value = str(request.form.get("value"))
 
-        if value:
-            bet_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div[1]/button[1]')
-            action.click(on_element=bet_button)
-            action.perform()
-            action.pause(1)
+        bet_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div[1]/button[1]')
+        action.click(on_element=bet_button)
+        action.perform()
+        action.pause(1)
 
+        if value:
             bet_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div/div[1]/div[2]/input')
             action.send_keys_to_element(bet_input, value)
             action.perform()
 
-            return jsonify({'message': f"Vou fazer uma aposta de {value}"})
-        else:
-            return jsonify({'message': "Entrada inválida"})
+        return jsonify({'message': f"Vou fazer uma aposta"})
         
 @app.route('/all_in', methods = ['POST'])
 def all_in():

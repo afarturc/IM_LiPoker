@@ -125,7 +125,7 @@
             check();
           } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="raise") {
             var value = c.nlu["amount-of-money"]
-            sendToVoice(`Confirma a sua aposta de ${value} euros?`);
+            sendToVoice(`Confirma a sua aposta de ${value} euro?`);
             raise(value);
           } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="affirm_bet") {
             sendToVoice("Certo! Aposta confirmada.");

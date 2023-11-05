@@ -74,6 +74,7 @@
     <script src="js/webtoolkit.utf8.js"></script>
 
 
+
 <script type="module">
 
 
@@ -93,6 +94,16 @@
         return;
     }
   }
+
+  
+  let circle = SVG.find('.circle');
+  let square = SVG.find('.square');
+  let triangle = SVG.find('.triangle');
+
+  circle.animate().attr({fill:'#ccc'});
+  square.animate().attr({fill:'#ccc'});
+  triangle.animate().attr({fill:'#ccc'});
+
 
   import {buyIn, call, fold, check, raise, affirm_bet, deny_bet, all_in} from './js/api.js';
 
@@ -151,13 +162,28 @@
   var mmiCli_1 = null;
   mmiCli_1 = new MMIClient(null, "https://"+host+":8000/IM/USER1/APPSPEECH");
 
+  circle.on('click', function(){
+      console.log("circulo");
+      sendToVoice("circulo");
+  })
+
+  square.on('click', function(){
+      console.log("quadrado");
+      sendToVoice("quadradoç");
+  })
+
+  triangle.on('click', function(){
+      console.log("triangulo");
+      sendToVoice("triangulo");
+  })
+
   function sendToVoice(texto){
     //let speak = "&lt;speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"&gt;&lt;p&gt;" + "quadrado" + "&lt;/p&gt;&lt;/speak&gt";
-    let speak = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"><p>"+texto+"</p></speak>";
-    var result = speak;
-        mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1").
-            doStartRequest(new EMMA("text-", "text", "command", 1, 0).
-              setValue(JSON.stringify(result))));
+  let speak = "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"><p>"+texto+"</p></speak>";
+  var result = speak;
+      mmiCli_1.sendToIM(new LifeCycleEvent("APPSPEECH", "IM", "text-1", "ctx-1").
+          doStartRequest(new EMMA("text-", "text", "command", 1, 0).
+            setValue(JSON.stringify(result))));
   }
   
 

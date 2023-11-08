@@ -105,9 +105,9 @@
   triangle.animate().attr({fill:'#ccc'});
 
 
-  import {buyIn, call, fold, check, raise, affirm_bet, deny_bet, all_in} from './js/api.js';
+  import {buy_in, call, fold, check, raise, confirm_bet, deny_bet, all_in, request_hand_order, request_handboard, select_username} from './js/api.js';
 
-  function im1MessageHandler(data) {
+  async function im1MessageHandler(data) {
 
     console.log("--------------im1MessageHandler---------------");
 
@@ -121,32 +121,42 @@
 
           let c = JSON.parse(content);
 
-          if (c.hasOwnProperty("nlu") && c.nlu.intent=="buy_in") {
+          if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_buy_in") {
             var value = c.nlu["amount-of-money"]
             sendToVoice(`Certo! Ir a jogo com ${value} euros.`);
-            buyIn(value);
-          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="call") {
+            buy_in(value);
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_call") {
             sendToVoice("Certo! Ir a jogo.");
             call();
-          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="fold") {
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_fold") {
             sendToVoice("Certo! Desistir da mão.");
             fold();
-          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="check") {
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_check") {
             sendToVoice("Certo! Passar a mão.");
             check();
-          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="raise") {
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_raise") {
             var value = c.nlu["amount-of-money"]
             sendToVoice(`Confirma a sua aposta de ${value} euro?`);
             raise(value);
-          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="affirm_bet") {
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="confirm_bet") {
             sendToVoice("Certo! Aposta confirmada.");
-            affirm_bet();
+            confirm_bet();
           } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="deny_bet") {
             sendToVoice("Certo! Não apostar.");
             deny_bet();
-          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="all_in") {
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="select_all_in") {
             sendToVoice("Tem a certeza que quer apostar tudo?");
             all_in();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_hand_order") {
+            var values = c.nlu["hands"]
+            const response = await request_hand_order(values)
+            sendToVoice(response);
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="request_handboard") {
+            request_handboard();
+          } else if (c.hasOwnProperty("nlu") && c.nlu.intent=="select_username") {
+            var value = c.nlu["username"]
+            const response = await select_username(value)
+            sendToVoice(response);
           }
 
         }
@@ -161,21 +171,6 @@
 
   var mmiCli_1 = null;
   mmiCli_1 = new MMIClient(null, "https://"+host+":8000/IM/USER1/APPSPEECH");
-
-  circle.on('click', function(){
-      console.log("circulo");
-      sendToVoice("circulo");
-  })
-
-  square.on('click', function(){
-      console.log("quadrado");
-      sendToVoice("quadradoç");
-  })
-
-  triangle.on('click', function(){
-      console.log("triangulo");
-      sendToVoice("triangulo");
-  })
 
   function sendToVoice(texto){
     //let speak = "&lt;speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.w3.org/2001/10/synthesis http://www.w3.org/TR/speech-synthesis/synthesis.xsd\" xml:lang=\"pt-PT\"&gt;&lt;p&gt;" + "quadrado" + "&lt;/p&gt;&lt;/speak&gt";

@@ -115,6 +115,61 @@ def check():
 
         return jsonify({'message': "Dou check"})
   
+@app.route('/request_hand_order', methods = ['POST'])
+def request_hand_order():
+    hands = {
+        "High Card": 0, 
+        "Carta Alta": 0,
+        "Pair": 1,
+        "Par": 1,
+        "Two Pair": 2,
+        "2 Pares": 2,
+        "Three of a Kind": 3,
+        "Trio": 3,
+        "Straight": 4,
+        "Sequência": 4,
+        "Flush": 5,
+        "Full House": 5,
+        "Four of a Kind": 6,
+        "Poker": 6,
+        "Straight Flush": 7,
+        "Royal Flush": 8,
+    }
+
+    if (request.method == 'POST'):
+        hand1 = request.form.get("hand1")
+        hand2 = request.form.get("hand2")
+
+        highest_hand = max(hand1, hand2, key=hands.get)
+        other_hand = min(hand1, hand2, key=hands.get)
+
+        return jsonify({'message': f"{highest_hand} é maior do que {other_hand}"})
+    
+@app.route('/request_handboard', methods = ['POST'])
+def request_handboard():
+    if (request.method == 'POST'):
+        handboard_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[8]/div[1]/div')
+        screen = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[8]/div[3]/div/div[2]')
+        action.click(on_element=handboard_button)
+        action.pause(3)
+        action.click(on_element=screen)
+        action.perform()
+
+        return jsonify({'message': "Aqui estão as mãos"})
+
+@app.route('/select_username', methods = ['POST'])
+def select_username():
+    if (request.method == 'POST'):
+        username = request.form.get("username")
+
+        input = driver.find_element(By.XPATH, '//*[@id="input-username"]')
+        play_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[2]/div/div[2]/button[2]')
+        action.send_keys_to_element(input, username)
+        action.click(on_element=play_button)
+        action.perform()
+
+        return jsonify({'message': f"Bom jogo, {username}"})
+
 # driver function 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="LiPokerAPI settings")

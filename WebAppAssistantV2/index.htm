@@ -398,34 +398,52 @@ async function InitializeKWS(){
     $.post( "http://localhost:5005/model/parse", JSON.stringify(obj), function( data ) {
     console.log(data);
 
-    if (data.intent.name=='buy_in') {
+    if (data.intent.name=='request_buy_in') {
       var value = '';
       for (let i = 0; i < data.entities.length; i++)
       {
         if(data.entities[i].entity=='amount-of-money')
           value=data.entities[i].value;
       }
-      var message = {'intent':'buy_in', 'amount-of-money':value}
-    } else if (data.intent.name=='call') {
-      var message = {'intent':'call'}
-    } else if (data.intent.name=='fold') {
-      var message = {'intent':'fold'}
-    } else if (data.intent.name=='check') {
-      var message = {'intent':'check'}
-    } else if (data.intent.name =='raise') {
+      var message = {'intent':'request_buy_in', 'amount-of-money':value}
+    } else if (data.intent.name=='request_call') {
+      var message = {'intent':'request_call'}
+    } else if (data.intent.name=='request_fold') {
+      var message = {'intent':'request_fold'}
+    } else if (data.intent.name=='request_check') {
+      var message = {'intent':'request_check'}
+    } else if (data.intent.name =='request_raise') {
       var value = '';
       for (let i = 0; i < data.entities.length; i++)
       {
         if(data.entities[i].entity=='amount-of-money')
           value=data.entities[i].value;
       }
-      var message = {'intent':'raise', 'amount-of-money':value}
-    } else if (data.intent.name=='affirm_bet') {
-      var message = {'intent':'affirm_bet'}
+      var message = {'intent':'request_raise', 'amount-of-money':value}
+    } else if (data.intent.name=='confirm_bet') {
+      var message = {'intent':'confirm_bet'}
     } else if (data.intent.name=='deny_bet') {
       var message = {'intent':'deny_bet'}
-    } else if (data.intent.name=='all_in') {
-      var message = {'intent':'all_in'}
+    } else if (data.intent.name=='select_all_in') {
+      var message = {'intent':'select_all_in'}
+    } else if (data.intent.name=='request_hand_order') {
+      var values = []
+      for (let i = 0; i < data.entities.length; i++)
+      {
+        if(data.entities[i].entity=='hand')
+          values.push(data.entities[i].value)
+      }
+      var message = {'intent':'request_hand_order', 'hands': values}
+    } else if (data.intent.name=='request_handboard') {
+      var message = {'intent':'request_handboard'}
+    } else if (data.intent.name=='select_username') {
+      var value = '';
+      for (let i = 0; i < data.entities.length; i++)
+      {
+        if(data.entities[i].entity=='username')
+          value=data.entities[i].value;
+      }
+      var message = {'intent':'select_username', 'username': value}
     }
 
     var messaget = btoa(unescape(encodeURIComponent(final_transcript)));

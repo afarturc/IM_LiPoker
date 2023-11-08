@@ -1,0 +1,28 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-hand",
+      "2": "I-hand",
+      "3": "L-hand",
+      "4": "U-hand",
+      "5": "B-username",
+      "6": "I-username",
+      "7": "L-username",
+      "8": "U-username",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-hand": 1,
+      "I-hand": 2,
+      "L-hand": 3,
+      "U-hand": 4,
+      "B-username": 5,
+      "I-username": 6,
+      "L-username": 7,
+      "U-username": 8,
+      "O": 0
+    },
+    "num_tags": 9
+  }
+]

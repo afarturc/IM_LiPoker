@@ -1,6 +1,6 @@
 version: "3.1"
 nlu:
-- intent: call
+- intent: request_call
   examples: |
     - Vou a jogo
     - Eu pago
@@ -9,8 +9,10 @@ nlu:
     - Estou no jogo
     - Iguala a aposta
     - Também vou a jogo
+    - Chamo a aposta
+    - Vou com esta aposta
     
-- intent: fold
+- intent: request_fold
   examples: |
     - Eu desisto da mão
     - Não vou a jogo
@@ -21,8 +23,11 @@ nlu:
     - Desistir da rodada
     - Largar as cartas
     - Não vou continuar na mão
+    - Não quero continuar com esta aposta
+    - Faço fold
+    - Não vou jogar mais esta mão
 
-- intent: check
+- intent: request_check
   examples : |
     - Dou check
     - Vou dar check
@@ -33,8 +38,10 @@ nlu:
     - Vamos ver mais uma carta
     - Knock 
     - Sem aposta
+    - Passo desta vez
+    - Não vou apostar agora
 
-- intent: all_in
+- intent: select_all_in
   examples : |
     - Apostar tudo 
     - All in
@@ -43,16 +50,19 @@ nlu:
     - Vou apostar todas as minhas fichas
     - Coloca as fichas todas na mesa
     - Vou all-in
+    - Tudo ou nada
+    - Coloco as minhas fichas todas na mesa
 
-- intent: raise
+- intent: request_raise
   examples: |
     - Aumentar a aposta
     - Vou apostar com 10 euros
     - Vou apostar com 10€
     - Quero fazer uma aposta de 10€
     - Queros fazer uma posta de 10 euros
+    - Faço uma subida para 10€
 
-- intent: affirm_bet
+- intent: confirm_bet
   examples : |
     - A quantia está certa
     - Está certo
@@ -64,6 +74,7 @@ nlu:
     - Sim
     - Confirmo
     - Confirmo a aposta  
+    - Sim, está certo
 
 - intent: deny_bet
   examples: |
@@ -77,9 +88,79 @@ nlu:
     - Não confirmo
     - Não confirmo a aposta
 
-- intent: buy_in
+- intent: request_buy_in
   examples: |
     - Vou a jogo com 100€
     - Vou a jogo com 100 euros
-    - Quero entrar com 100 €
+    - Quero entrar com 100€
     - Entro com 100 euros
+
+- lookup: hand
+  examples: |
+    - High Card
+    - Carta Alta
+    - Pair
+    - Par
+    - Two Pair
+    - 2 Pares
+    - Three of a Kind
+    - Trio
+    - Straight
+    - Sequência
+    - Flush
+    - Full House
+    - Four of a Kind
+    - Poker
+    - Straight Flush
+    - Royal Flush
+
+- intent: request_hand_order
+  examples: |
+    - O que é maior [Pair](hand) ou [Flush](hand)
+    - O que é maior um [Par](hand) ou [Trio](hand)
+    - Entre [Straight](hand) e [Full House](hand) o que é maior
+    - Entre [Three of a Kind](hand) e [Straight Flush](hand) o que é maior
+    - Entre [2 Pares](hand) e [Poker](hand) o que é maior
+    - O que é mais alto [Royal Flush](hand) ou [Two Pair](hand)
+    - [Four of a Kind](hand) é melhor do que [High Card](hand)
+    - [2 Pares](hand) supera uma [Sequência](hand)
+    - Podes me dizer se 1 [Par](hand) é melhor do que [2 Pares]
+    - [2 Pares](hand) é maior do que um [Poker](hand)
+    - [Carta Alta](hand) é maior que [2 Pares](hand)
+
+- intent: request_handboard
+  examples: |
+    - Mostra-me a tabela das mãos
+    - Mostra-me a tabela de classificação das mãos
+    - Quero ver a prioridade das cartas
+    - Qual é a ordem das mãos?
+    - Mostar tabela com as prioridades
+    - Quais são as mãos mais fortes
+    - Qual é a prioridade das mãos?
+    - Mostre-me a hierarquia das mãos de poker
+    - Qual é a mão mais forte?
+
+- intent: select_username
+  examples: |
+    - Vou chamar me [Artur](username)
+    - Muda o nome para [art](username)
+    - Quero ser o [João](username)
+    - Sou o [Tiago](username)
+    - O meu nome é [Pinto](username)
+    - Vou ser [afo](username)
+    - username vai ser o meu [Correia](username)
+
+- intent: request_more_chips
+  examples: |
+    - Adiciona mais fichas
+    - Quero mais fichas comigo
+    - Vou comprar mais fichas
+    - Quero adicionar mais fichas
+    - Compro mais 10€ em fichas
+    
+- intent: change_value
+  examples: |
+    - Alterar o valor para 5€
+    - Muda para 10€
+    - Enganei-me, quero 10€
+    - Corrige para 5€ 

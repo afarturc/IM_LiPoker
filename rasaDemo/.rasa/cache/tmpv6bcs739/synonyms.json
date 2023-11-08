@@ -1,0 +1,8 @@
+{
+  "pair": "Pair",
+  "flush": "Flush",
+  "straight": "Straight",
+  "full house": "Full House",
+  "royal flush": "Royal Flush",
+  "two pair": "Two Pair"
+}

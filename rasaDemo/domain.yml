@@ -1,22 +1,21 @@
 version: '3.1'
 intents:
-- call
-- fold
-- check
-- all_in
-- raise
-- affirm_bet
+- request_call
+- request_fold
+- request_check
+- select_all_in
+- request_raise
+- confirm_bet
 - deny_bet
-- buy_in
+- request_buy_in
 - request_hand_order
-- request_leaderboard
+- request_handboard
 - select_username
 - request_more_chips
 - change_value
 
 entities:
 - amount-of-money
-- hand
 - username
 
 slots:  
@@ -25,6 +24,12 @@ slots:
     mappings:
     - type: from_entity
       entity: amount-of-money
+
+  username:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: username
 
 responses:
   utter_greet:

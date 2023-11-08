@@ -1,0 +1,6 @@
+[
+  {
+    "name": "hand",
+    "pattern": "(\\bHigh\\ Card\\b|\\bCarta\\ Alta\\b|\\bPair\\b|\\bPar\\b|\\bTwo\\ Pair\\b|\\b2\\ Pares\\b|\\bThree\\ of\\ a\\ Kind\\b|\\bTrio\\b|\\bStraight\\b|\\bSequência\\b|\\bFlush\\b|\\bFull\\ House\\b|\\bFour\\ of\\ a\\ Kind\\b|\\bPoker\\b|\\bStraight\\ Flush\\b|\\bRoyal\\ Flush\\b)"
+  }
+]

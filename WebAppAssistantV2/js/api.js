@@ -31,7 +31,8 @@ async function raise(value) {
     })
     .then(response => response.json())
     .then(data => {
-        return data;
+        let message = data.message;
+        return message
     })
     .catch(error => {
         return defaultMessage
@@ -189,4 +190,40 @@ async function select_username(value) {
     });
 }
 
-export {buy_in, call, fold, check, raise, confirm_bet, deny_bet, all_in, request_hand_order, request_handboard, select_username}
+async function request_more_chips(value) {
+    return fetch(`${apiConfig.baseUrl}/request_more_chips`, {
+        method: 'POST',
+        body: new URLSearchParams({ "amount-of-money": value }),
+        headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        let message = data.message;
+        return message
+    })
+    .catch(error => {
+        return defaultMessage
+    });
+}
+
+async function change_value(value) {
+    return fetch(`${apiConfig.baseUrl}/change_value`, {
+        method: 'POST',
+        body: new URLSearchParams({ "amount-of-money": value }),
+        headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        let message = data.message;
+        return message
+    })
+    .catch(error => {
+        return defaultMessage
+    });
+}
+
+export {buy_in, call, fold, check, raise, confirm_bet, deny_bet, all_in, request_hand_order, request_handboard, select_username, request_more_chips, change_value}

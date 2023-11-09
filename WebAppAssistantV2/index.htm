@@ -444,6 +444,22 @@ async function InitializeKWS(){
           value=data.entities[i].value;
       }
       var message = {'intent':'select_username', 'username': value}
+    } else if (data.intent.name=='request_more_chips') {
+      var value = '';
+      for (let i = 0; i < data.entities.length; i++)
+      {
+        if(data.entities[i].entity=='amount-of-money')
+          value=data.entities[i].value;
+      }
+      var message = {'intent':'request_more_chips', 'amount-of-money': value}
+    } else if (data.intent.name=='change_value') {
+      var value = '';
+      for (let i = 0; i < data.entities.length; i++)
+      {
+        if(data.entities[i].entity=='amount-of-money')
+          value=data.entities[i].value;
+      }
+      var message = {'intent':'change_value', 'amount-of-money': value}
     }
 
     var messaget = btoa(unescape(encodeURIComponent(final_transcript)));

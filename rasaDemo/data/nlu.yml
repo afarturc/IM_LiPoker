@@ -157,6 +157,7 @@ nlu:
     - Vou comprar mais fichas
     - Quero adicionar mais fichas
     - Compro mais 10€ em fichas
+    - Quero mais 10 euros em fichas
     
 - intent: change_value
   examples: |

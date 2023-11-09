@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains 
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 import argparse
 from flask_cors import CORS
 
@@ -54,7 +55,9 @@ def raise_bet():
             action.send_keys_to_element(bet_input, value)
             action.perform()
 
-        return jsonify({'message': f"Vou fazer uma aposta"})
+            return jsonify({'message': f"Tem a certeza que quer apostar {value} euros?"})
+    
+    return jsonify({'message': "Confirma a sua aposta? Se quiser, pode me pedir para alterar o valor."})
         
 @app.route('/all_in', methods = ['POST'])
 def all_in():
@@ -149,7 +152,7 @@ def request_hand_order():
 def request_handboard():
     if (request.method == 'POST'):
         handboard_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[8]/div[1]/div')
-        screen = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[8]/div[3]/div/div[2]')
+        screen = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div/div[8]/div[7]')
         action.click(on_element=handboard_button)
         action.pause(3)
         action.click(on_element=screen)
@@ -168,7 +171,40 @@ def select_username():
         action.click(on_element=play_button)
         action.perform()
 
-        return jsonify({'message': f"Bom jogo, {username}"})
+        return jsonify({'message': f"Bem vindo a jogo, {username}."})
+    
+@app.route('/request_more_chips', methods = ['POST'])
+def request_more_chips():
+    if (request.method == 'POST'):
+        value = request.form.get("amount-of-money")
+        money = str(value) if value else "5"
+
+        more_options_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[1]/div/div')
+        buy_more_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[1]/div[2]/div[1]/div[1]')
+        add_input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div/div[2]/div/div[1]/div/div[2]/div[2]/div/input')
+        confirm_buy_button = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[1]/div/div[2]/div/div[2]/button')
+
+        action.click(on_element=more_options_button)
+        action.click(on_element=buy_more_button)
+        action.send_keys_to_element(add_input, money)
+        action.click(on_element=confirm_buy_button)
+        action.perform()
+
+        return jsonify({'message': f"Adicionado {money} ao seu banco, valor entra em jogo na próxima ronda."})
+    
+@app.route('/change_value', methods = ['POST'])
+def change_value():
+    if (request.method == 'POST'):
+        value = str(request.form.get("amount-of-money"))
+
+        input = driver.find_element(By.XPATH, '//*[@id="root"]/div/div[6]/div[1]/div[9]/div[2]/div/div/div[1]/div[2]/input')
+
+        action.send_keys_to_element(input, Keys.CONTROL + 'a')
+        action.send_keys_to_element(input, Keys.DELETE)
+        action.send_keys_to_element(input, value)
+        action.perform()
+
+        return jsonify({'message': f"Mudei o valor da aposta para {value} euros."})
 
 # driver function 
 if __name__ == '__main__':
